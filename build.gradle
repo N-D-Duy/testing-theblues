@@ -1,0 +1,86 @@
+plugins {
+    id 'java'
+    id 'io.qameta.allure' version '2.9.3'
+}
+
+group 'com.dnd'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    allureVersion = '2.29.0'
+}
+
+sourceCompatibility = '21'
+targetCompatibility = '21'
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Test).configureEach {
+    systemProperties = System.properties as Map<String, ?>
+    useTestNG()
+}
+
+dependencies {
+    // Test dependencies
+    testImplementation('com.codeborne:selenide-testng:7.6.0')
+    testImplementation("io.qameta.allure:allure-selenide:${allureVersion}")
+    testImplementation('org.slf4j:slf4j-simple:2.0.16')
+    testImplementation('org.testng:testng:7.10.2')
+
+    // Implementation dependencies
+    implementation 'commons-io:commons-io:2.19.0'
+    implementation 'org.seleniumhq.selenium:selenium-java:4.15.0'
+    implementation 'com.browserstack:browserstack-local-java:1.1.5'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
+    // BrowserStack SDK
+    implementation 'com.browserstack:browserstack-java-sdk:1.32.12'
+}
+
+allure {
+    autoconfigure = true
+    version = "${allureVersion}"
+    useTestNG {
+        version = "${allureVersion}"
+    }
+}
+
+tasks.register('sampleTest', Test) {
+    group = 'verification'
+    description = 'Run tests with BrowserStack'
+
+    dependsOn 'cleanTest'
+
+    useTestNG {
+        suites 'config/testing.xml'
+        useDefaultListeners = true
+    }
+
+    doFirst {
+        configurations.runtimeClasspath.forEach { file ->
+            if (file.name.contains('browserstack-java-sdk')) {
+                jvmArgs("-javaagent:${file.absolutePath}")
+                return true
+            }
+        }
+    }
+}
+
+
+tasks.register('sampleLocalTest', Test) {
+    group = 'verification'
+    description = 'Run tests locally'
+
+    dependsOn('cleanTest')
+
+    useTestNG {
+        useDefaultListeners = true
+        includeGroups 'local'
+    }
+}
