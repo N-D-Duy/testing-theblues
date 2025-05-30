@@ -1,10 +1,12 @@
-package com.dnd.testingtheblueswebsite;
+package com.dnd.testingtheblueswebsite.remote;
 
+import com.dnd.testingtheblueswebsite.SeleniumTest;
 import org.testng.annotations.Test;
 
 import java.util.Objects;
 
-public class MainPageTest extends SeleniumTest{
+
+public class MainPageTest extends SeleniumTest {
 
     @Test
     public void testMainPageTitle() {

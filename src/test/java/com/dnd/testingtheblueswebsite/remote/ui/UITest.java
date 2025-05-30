@@ -1,16 +1,15 @@
-package com.dnd.testingtheblueswebsite;
+package com.dnd.testingtheblueswebsite.remote.ui;
 
+import com.dnd.testingtheblueswebsite.SeleniumTest;
 import org.testng.annotations.Test;
 
 import java.util.Objects;
 
-@Test(groups = "local")
-public class MainPageLocalTest extends SeleniumTest {
-
-    @Test
+@Test(groups = {"UI-Tests", "BrowserStack"})
+public class UITest extends SeleniumTest {
+    @Test(priority = 2)
     public void testMainPageTitle() {
-        driver.get("https://jetbrains.com/");
-        String expectedTitle = "JetBrains: Essential tools for software developers and teams";
+        String expectedTitle = "THE BLUES | Blue Exchange";
         String actualTitle = driver.getTitle();
         assert Objects.equals(actualTitle, expectedTitle) : "Expected title: " + expectedTitle + ", but got: " + actualTitle;
     }

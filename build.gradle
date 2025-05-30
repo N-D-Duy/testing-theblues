@@ -60,7 +60,7 @@ tasks.register('sampleTest', Test) {
     dependsOn 'cleanTest'
 
     useTestNG {
-        suites 'config/testing.xml'
+        suites 'src/test/resources/testing.xml'
         useDefaultListeners = true
     }
 
@@ -82,6 +82,7 @@ tasks.register('sampleLocalTest', Test) {
     dependsOn('cleanTest')
 
     useTestNG {
+        suites 'src/test/resources/local-testing.xml'
         useDefaultListeners = true
         includeGroups 'local'
     }
