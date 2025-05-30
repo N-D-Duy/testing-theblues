@@ -19,6 +19,7 @@ targetCompatibility = '21'
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
+    options.debug = true
 }
 
 tasks.withType(Test).configureEach {
@@ -35,12 +36,13 @@ dependencies {
 
     // Implementation dependencies
     implementation 'commons-io:commons-io:2.19.0'
-    implementation 'org.seleniumhq.selenium:selenium-java:4.15.0'
+    implementation 'org.seleniumhq.selenium:selenium-java:4.33.0'
     implementation 'com.browserstack:browserstack-local-java:1.1.5'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
+
     // BrowserStack SDK
-    implementation 'com.browserstack:browserstack-java-sdk:1.32.12'
+    compileOnly 'com.browserstack:browserstack-java-sdk:latest.release'
 }
 
 allure {
