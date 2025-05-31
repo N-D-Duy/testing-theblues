@@ -24,14 +24,14 @@ public class LocalUITest extends SeleniumTest {
         PageFactory.initElements(driver, homePage);
     }
 
-    @Test(description = "TC00 - Verify that the main page title is correct")
+    @Test(description = "TC-UI-00 - Verify that the main page title is correct")
     public void testMainPageTitle() {
         String expectedTitle = "THE BLUES | Blue Exchange";
         String actualTitle = driver.getTitle();
         assertEquals(actualTitle, expectedTitle, "Expected title: " + expectedTitle + ", but got: " + actualTitle);
     }
 
-    @Test(description = "TC01 - Verify that the account popup appears when the user clicks on the account button and contains the correct elements")
+    @Test(description = "TC-UI-01 - Verify that the account popup appears when the user clicks on the account button and contains the correct elements")
     public void testAccountPopup() {
         homePage.buttonOpenAccountDetails.click();
 
@@ -49,7 +49,7 @@ public class LocalUITest extends SeleniumTest {
         assertTrue(loginForm.buttonReyForgetForm.isDisplayed());
     }
 
-    @Test(description = "TC01b - Verify login attempt via popup does not change login state (bug)")
+    @Test(description = "TC-UI-01b - Verify login attempt via popup does not change login state (bug)")
     public void testLoginByAccountPopupForm() throws InterruptedException {
         homePage.buttonOpenAccountDetails.click();
 
@@ -75,7 +75,7 @@ public class LocalUITest extends SeleniumTest {
     }
 
 
-    @Test(description = "TC02 - Verify that the user can navigate to the account page from the account popup")
+    @Test(description = "TC-UI-02 - Verify that the user can navigate to the account page from the account popup")
     public void testNavigateToAccountPage() {
         homePage.navigateToAccountPage.click();
 

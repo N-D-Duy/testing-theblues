@@ -33,7 +33,7 @@ public class LocalRegisterTest extends SeleniumTest {
         PageFactory.initElements(driver, accountPage);
     }
 
-    @Test(description = "TC10 - Register with valid credentials")
+    @Test(description = "TC-Register-00 - Register with valid credentials")
     public void testRegisterWithValidCredentials() {
         accountPage.inputRegisterEmail.sendKeys(MyConstants.validRegisterEmail);
         accountPage.buttonRegister.click();
@@ -42,7 +42,7 @@ public class LocalRegisterTest extends SeleniumTest {
         assertTrue(accountPage.loginSuccessMessage.isDisplayed(), "Register success message should be displayed");
     }
 
-    @Test(description = "TC11 - Register with invalid email")
+    @Test(description = "TC-Register-01 - Register with invalid email")
     public void testRegisterWithInvalidEmail() {
         accountPage.inputRegisterEmail.sendKeys(MyConstants.invalidFormatEmail);
         accountPage.buttonRegister.click();
@@ -56,7 +56,7 @@ public class LocalRegisterTest extends SeleniumTest {
         assertNotEquals(isValid, Boolean.TRUE, "Email should be invalid");
     }
 
-    @Test(description = "TC12 - Register with too long email")
+    @Test(description = "TC-Register-02 - Register with too long email")
     public void testRegisterWithTooLongEmail() {
         accountPage.inputRegisterEmail.sendKeys(MyConstants.longEmail);
         accountPage.buttonRegister.click();
@@ -70,7 +70,7 @@ public class LocalRegisterTest extends SeleniumTest {
         assertTrue(errorMessage.contains(expectedErrorMessage), "Error message should contain: " + expectedErrorMessage);
     }
 
-    @Test(description = "TC13 - Register with already registered email")
+    @Test(description = "TC-Register-03 - Register with already registered email")
     public void testRegisterWithAlreadyRegisteredEmail() {
         accountPage.inputRegisterEmail.sendKeys(MyConstants.alreadyRegisteredEmail);
         accountPage.buttonRegister.click();
@@ -84,7 +84,7 @@ public class LocalRegisterTest extends SeleniumTest {
         assertTrue(errorMessage.contains(expectedErrorMessage), "Error message should contain: " + expectedErrorMessage);
     }
 
-    @Test(description = "TC14 - Register with empty email")
+    @Test(description = "TC-Register-04 - Register with empty email")
     public void testRegisterWithEmptyEmail() {
         accountPage.inputRegisterEmail.clear();
         accountPage.buttonRegister.click();

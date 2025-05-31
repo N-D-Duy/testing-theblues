@@ -36,7 +36,7 @@ public class LocalLoginTest extends SeleniumTest {
         PageFactory.initElements(driver, accountPage);
     }
 
-    @Test(description = "TC03 - Login with valid credentials")
+    @Test(description = "TC-Login-00 - Login with valid credentials")
     public void testLoginWithValidCredentials() {
         accountPage.inputUsername.sendKeys(MyConstants.username);
         accountPage.inputPassword.sendKeys(MyConstants.password);
@@ -49,7 +49,7 @@ public class LocalLoginTest extends SeleniumTest {
         assertTrue(actualMessage.contains(expectedMessage), "Expected message: " + expectedMessage + ", but got: " + actualMessage);
     }
 
-    @Test(description = "TC04 - Login with invalid credentials")
+    @Test(description = "TC-Login-01 - Login with invalid credentials")
     public void testLoginWithInvalidCredentials() {
         accountPage.inputUsername.sendKeys(MyConstants.testUsername);
         accountPage.inputPassword.sendKeys(MyConstants.testPassword);
@@ -62,7 +62,7 @@ public class LocalLoginTest extends SeleniumTest {
         assertTrue(actualError.contains(expectedError), "Expected error: " + expectedError + ", but got: " + actualError);
     }
 
-    @Test(description = "TC04b - Login with empty username")
+    @Test(description = "TC-Login-01b - Login with empty username")
     @Description("Verify that client-side validation is not working when username is empty")
     public void testLoginWithEmptyUsername() {
         accountPage.inputUsername.clear();
@@ -78,7 +78,7 @@ public class LocalLoginTest extends SeleniumTest {
                         "' was displayed instead of client-side validation message");
     }
 
-    @Test(description = "TC04c - Login with special characters in credentials")
+    @Test(description = "TC-Login-01c - Login with special characters in credentials")
     public void testLoginWithSpecialCharacters() {
         accountPage.inputUsername.sendKeys(MyConstants.specialEmail);
         accountPage.inputPassword.sendKeys(MyConstants.password);
@@ -91,7 +91,7 @@ public class LocalLoginTest extends SeleniumTest {
         assertTrue(actualError.contains(expectedError), "Expected error: " + expectedError + ", but got: " + actualError);
     }
 
-    @Test(description = "TC04d - Check Length of username and password fields")
+    @Test(description = "TC-Login-01d - Check Length of username and password fields")
     public void testLoginFieldLength() {
         accountPage.inputUsername.sendKeys(MyConstants.longUsername);
         accountPage.inputPassword.sendKeys(MyConstants.longPassword);
@@ -104,7 +104,7 @@ public class LocalLoginTest extends SeleniumTest {
         assertTrue(actualError.contains(expectedError), "Expected error: " + expectedError + ", but got: " + actualError);
     }
 
-    @Test(description = "TC04e - Login with redundant spaces in credentials")
+    @Test(description = "TC-Login-01e - Login with redundant spaces in credentials")
     public void testLoginWithRedundantSpaces() {
         accountPage.inputUsername.sendKeys(MyConstants.username);
         accountPage.inputPassword.sendKeys(MyConstants.unTrimmedPassword);
@@ -117,7 +117,7 @@ public class LocalLoginTest extends SeleniumTest {
         assertTrue(actualMessage.contains(expectedMessage), "Expected message: " + expectedMessage + ", but got: " + actualMessage);
     }
 
-    @Test(description = "TC04f - Distinct uppercase and lowercase letters")
+    @Test(description = "TC-Login-01f - Distinct uppercase and lowercase letters")
     public void testLoginWithDistinctUppercaseAndLowercase() {
         accountPage.inputUsername.sendKeys(MyConstants.username.toUpperCase());
         accountPage.inputPassword.sendKeys(MyConstants.password.toUpperCase());
@@ -130,7 +130,7 @@ public class LocalLoginTest extends SeleniumTest {
         assertTrue(actualError.contains(expectedError), "Expected error: " + expectedError + ", but got: " + actualError);
     }
 
-    @Test(description = "TC05 - Change password")
+    @Test(description = "TC-Login-02 - Change password")
     public void testChangePasswordWithUntrimmedPassword() {
         accountPage.inputUsername.sendKeys(MyConstants.username);
         accountPage.inputPassword.sendKeys(MyConstants.password);
@@ -155,7 +155,7 @@ public class LocalLoginTest extends SeleniumTest {
         assertTrue(actualMessage.contains(expectedMessage), "Expected message: " + expectedMessage + ", but got: " + actualMessage);
     }
 
-    @Test(description = "TC05b - Change password with the same password")
+    @Test(description = "TC-Login-02b - Change password with the same password")
     public void testChangePasswordWithSamePassword() {
         accountPage.inputUsername.sendKeys(MyConstants.username);
         accountPage.inputPassword.sendKeys(MyConstants.password);
@@ -183,7 +183,7 @@ public class LocalLoginTest extends SeleniumTest {
         );
     }
 
-    @Test(description = "TC06 - Remember login when checkbox is ticked")
+    @Test(description = "TC-Login-03 - Remember login when checkbox is ticked")
     public void testRememberLoginWithCheckbox() {
         accountPage.inputUsername.sendKeys(MyConstants.username);
         accountPage.inputPassword.sendKeys(MyConstants.password);
@@ -198,7 +198,7 @@ public class LocalLoginTest extends SeleniumTest {
         assertTrue(stillLoggedIn, "User should stay logged in when 'Remember me' is ticked.");
     }
 
-    @Test(description = "TC07 - Do not remember login when checkbox is not ticked")
+    @Test(description = "TC-Login-04 - Do not remember login when checkbox is not ticked")
     public void testDoNotRememberLoginWithoutCheckbox() {
         accountPage.inputUsername.sendKeys(MyConstants.username);
         accountPage.inputPassword.sendKeys(MyConstants.password);
@@ -212,7 +212,7 @@ public class LocalLoginTest extends SeleniumTest {
         assertFalse(stillLoggedIn, "User should not stay logged in without ticking 'Remember me'.");
     }
 
-    @Test(description = "TC08 - Logout")
+    @Test(description = "TC-Login-05 - Logout")
     public void testLogout() {
         accountPage.inputUsername.sendKeys(MyConstants.username);
         accountPage.inputPassword.sendKeys(MyConstants.password);
@@ -228,7 +228,7 @@ public class LocalLoginTest extends SeleniumTest {
         assertTrue(isLoggedOut, "User should be logged out and login form should be displayed.");
     }
 
-    @Test(description = "TC09 - Navigate to forgot password page")
+    @Test(description = "TC-Login-06 - Navigate to forgot password page")
     public void testNavigateToForgotPasswordPage() {
         accountPage.forgotPasswordLink.click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
