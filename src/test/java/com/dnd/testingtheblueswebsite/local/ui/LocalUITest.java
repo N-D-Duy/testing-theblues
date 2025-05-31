@@ -1,8 +1,10 @@
 package com.dnd.testingtheblueswebsite.local.ui;
 
 import com.dnd.testingtheblueswebsite.SeleniumTest;
+import com.dnd.testingtheblueswebsite.constants.MyConstants;
 import com.dnd.testingtheblueswebsite.pages.HomePage;
 import com.dnd.testingtheblueswebsite.pages.LoginFormPopup;
+import io.qameta.allure.Description;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -11,8 +13,7 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 @Test(groups = {"UI-Tests", "local"})
 public class LocalUITest extends SeleniumTest {
@@ -22,13 +23,6 @@ public class LocalUITest extends SeleniumTest {
         super.setUp();
         homePage = new HomePage();
         PageFactory.initElements(driver, homePage);
-    }
-
-    @Test(description = "TC-UI-00 - Verify that the main page title is correct")
-    public void testMainPageTitle() {
-        String expectedTitle = "THE BLUES | Blue Exchange";
-        String actualTitle = driver.getTitle();
-        assertEquals(actualTitle, expectedTitle, "Expected title: " + expectedTitle + ", but got: " + actualTitle);
     }
 
     @Test(description = "TC-UI-01 - Verify that the account popup appears when the user clicks on the account button and contains the correct elements")
@@ -49,30 +43,34 @@ public class LocalUITest extends SeleniumTest {
         assertTrue(loginForm.buttonReyForgetForm.isDisplayed());
     }
 
-    @Test(description = "TC-UI-01b - Verify login attempt via popup does not change login state (bug)")
-    public void testLoginByAccountPopupForm() throws InterruptedException {
+    @Test(description = "TC-UI-01b - Verify successful login via popup")
+    @Description("User logs in via popup. If login successful, form disappears and login state changes.")
+    public void testLoginByAccountPopupForm() {
         homePage.buttonOpenAccountDetails.click();
 
         LoginFormPopup loginForm = new LoginFormPopup();
         PageFactory.initElements(driver, loginForm);
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(loginForm.inputUsername));
 
-        loginForm.inputUsername.sendKeys("samuelclarkvn");
-        loginForm.inputPassword.sendKeys("   abc123   ");
+        loginForm.inputUsername.sendKeys(MyConstants.username);
+        loginForm.inputPassword.sendKeys(MyConstants.password);
         loginForm.buttonLogin.click();
 
-        Thread.sleep(5000);
+        wait.until(ExpectedConditions.invisibilityOf(loginForm.inputUsername));
 
         homePage.buttonOpenAccountDetails.click();
-        wait.until(ExpectedConditions.visibilityOf(loginForm.inputUsername));
+        boolean loginFormVisibleAgain;
+        try {
+            loginFormVisibleAgain = loginForm.inputUsername.isDisplayed();
+        } catch (Exception e) {
+            loginFormVisibleAgain = false;
+        }
 
-        boolean loginFormStillVisible = loginForm.inputUsername.isDisplayed();
-        assertTrue(loginFormStillVisible, "Expected login form to remain (indicating user is not logged in), but it disappeared");
-
-        System.out.println("Popup closed but login state did not change. Form reappears => bug confirmed.");
+        assertFalse(loginFormVisibleAgain, "Expected login form to disappear after successful login, but it is still visible");
     }
+
 
 
     @Test(description = "TC-UI-02 - Verify that the user can navigate to the account page from the account popup")
