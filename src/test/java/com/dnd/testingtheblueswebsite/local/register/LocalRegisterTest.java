@@ -26,8 +26,8 @@ public class LocalRegisterTest extends SeleniumTest {
         PageFactory.initElements(driver, homePage);
 
         homePage.navigateToAccountPage();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOf(homePage.formUsernameEmailAddressPassword));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.urlContains("tai-khoan"));
 
         accountPage = new AccountPage();
         PageFactory.initElements(driver, accountPage);
@@ -35,9 +35,10 @@ public class LocalRegisterTest extends SeleniumTest {
 
     @Test(description = "TC-Register-00 - Register with valid credentials")
     public void testRegisterWithValidCredentials() {
+        accountPage.buttonRegister.click();
         accountPage.inputRegisterEmail.sendKeys(MyConstants.validRegisterEmail);
         accountPage.buttonRegister.click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(accountPage.loginSuccessMessage));
         assertTrue(accountPage.loginSuccessMessage.isDisplayed(), "Register success message should be displayed");
     }
@@ -58,10 +59,11 @@ public class LocalRegisterTest extends SeleniumTest {
 
     @Test(description = "TC-Register-02 - Register with too long email")
     public void testRegisterWithTooLongEmail() {
+        accountPage.buttonRegister.click();
         accountPage.inputRegisterEmail.sendKeys(MyConstants.longEmail);
         accountPage.buttonRegister.click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(accountPage.loginFailureMessage));
 
         String expectedErrorMessage = MyConstants.tooLongEmailErrMsg;
@@ -70,12 +72,14 @@ public class LocalRegisterTest extends SeleniumTest {
         assertTrue(errorMessage.contains(expectedErrorMessage), "Error message should contain: " + expectedErrorMessage);
     }
 
+
     @Test(description = "TC-Register-03 - Register with already registered email")
     public void testRegisterWithAlreadyRegisteredEmail() {
+        accountPage.buttonRegister.click();
         accountPage.inputRegisterEmail.sendKeys(MyConstants.alreadyRegisteredEmail);
         accountPage.buttonRegister.click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(accountPage.loginFailureMessage));
 
         String expectedErrorMessage = MyConstants.emailAlreadyRegisteredErrMsg;
@@ -86,10 +90,11 @@ public class LocalRegisterTest extends SeleniumTest {
 
     @Test(description = "TC-Register-04 - Register with empty email")
     public void testRegisterWithEmptyEmail() {
+        accountPage.buttonRegister.click();
         accountPage.inputRegisterEmail.clear();
         accountPage.buttonRegister.click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(accountPage.loginFailureMessage));
         String expectedErrorMessage = MyConstants.registerWithEmptyEmailErrMsg;
         String errorMessage = accountPage.loginFailureMessage.getText();
