@@ -27,12 +27,19 @@ public class AccountPage {
     @FindBy(css = "button[class*='woocommerce-form-register']")
     public WebElement buttonRegister;
 
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div/div/main/article/div/div/div[2]/p[1]")
-    public WebElement loginSuccessMessage;
-
     @FindBy(css = "ul[class='woocommerce-error'] li")
     public WebElement loginFailureMessage;
     
+    //after login elements
+    @FindBy(xpath = "/html/body/div[1]/div[2]/div/div/main/article/div/div/div[2]/p[1]")
+    public WebElement loginSuccessMessage;
 
+    @FindBy(css = "li[class$='woocommerce-MyAccount-navigation-link--edit-account'] a")
+    public WebElement editAccountLink;
 
+    @FindBy(css = "div[class='woocommerce-message']")
+    public WebElement accountUpdatedMessage;
+
+    @FindBy(css = "li[class$='woocommerce-MyAccount-navigation-link--customer-logout'] a")
+    public WebElement logoutLink;
 }
