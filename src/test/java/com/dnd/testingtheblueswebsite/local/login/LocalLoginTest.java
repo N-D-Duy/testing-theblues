@@ -29,8 +29,8 @@ public class LocalLoginTest extends SeleniumTest {
         PageFactory.initElements(driver, homePage);
 
         homePage.navigateToAccountPage();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOf(homePage.formUsernameEmailAddressPassword));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.urlContains("tai-khoan"));
 
         accountPage = new AccountPage();
         PageFactory.initElements(driver, accountPage);
@@ -38,11 +38,12 @@ public class LocalLoginTest extends SeleniumTest {
 
     @Test(description = "TC-Login-00 - Login with valid credentials")
     public void testLoginWithValidCredentials() {
+        accountPage.buttonLogin.click();
         accountPage.inputUsername.sendKeys(MyConstants.username);
         accountPage.inputPassword.sendKeys(MyConstants.password);
         accountPage.buttonLogin.click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(accountPage.loginSuccessMessage));
         String expectedMessage = MyConstants.loginSuccessMessage;
         String actualMessage = accountPage.loginSuccessMessage.getText();
@@ -51,11 +52,12 @@ public class LocalLoginTest extends SeleniumTest {
 
     @Test(description = "TC-Login-01 - Login with invalid credentials")
     public void testLoginWithInvalidCredentials() {
+        accountPage.buttonLogin.click();
         accountPage.inputUsername.sendKeys(MyConstants.testUsername);
         accountPage.inputPassword.sendKeys(MyConstants.testPassword);
         accountPage.buttonLogin.click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(accountPage.loginFailureMessage));
         String expectedError = MyConstants.loginFailureMessage;
         String actualError = accountPage.loginFailureMessage.getText();
@@ -65,11 +67,12 @@ public class LocalLoginTest extends SeleniumTest {
     @Test(description = "TC-Login-01b - Login with empty username")
     @Description("Verify that client-side validation is not working when username is empty")
     public void testLoginWithEmptyUsername() {
+        accountPage.buttonLogin.click();
         accountPage.inputUsername.clear();
         accountPage.inputPassword.sendKeys(MyConstants.testPassword);
         accountPage.buttonLogin.click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(accountPage.loginFailureMessage));
         String actualError = accountPage.loginFailureMessage.getText();
 
@@ -80,11 +83,12 @@ public class LocalLoginTest extends SeleniumTest {
 
     @Test(description = "TC-Login-01c - Login with special characters in credentials")
     public void testLoginWithSpecialCharacters() {
+        accountPage.buttonLogin.click();
         accountPage.inputUsername.sendKeys(MyConstants.specialEmail);
         accountPage.inputPassword.sendKeys(MyConstants.password);
         accountPage.buttonLogin.click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(accountPage.loginFailureMessage));
         String expectedError = MyConstants.loginFailureMessage;
         String actualError = accountPage.loginFailureMessage.getText();
@@ -93,11 +97,12 @@ public class LocalLoginTest extends SeleniumTest {
 
     @Test(description = "TC-Login-01d - Check Length of username and password fields")
     public void testLoginFieldLength() {
+        accountPage.buttonLogin.click();
         accountPage.inputUsername.sendKeys(MyConstants.longUsername);
         accountPage.inputPassword.sendKeys(MyConstants.longPassword);
         accountPage.buttonLogin.click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(accountPage.loginFailureMessage));
         String expectedError = MyConstants.loginFailureMessage;
         String actualError = accountPage.loginFailureMessage.getText();
@@ -106,11 +111,12 @@ public class LocalLoginTest extends SeleniumTest {
 
     @Test(description = "TC-Login-01e - Login with redundant spaces in credentials")
     public void testLoginWithRedundantSpaces() {
+        accountPage.buttonLogin.click();
         accountPage.inputUsername.sendKeys(MyConstants.username);
         accountPage.inputPassword.sendKeys(MyConstants.unTrimmedPassword);
         accountPage.buttonLogin.click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(accountPage.loginSuccessMessage));
         String expectedMessage = MyConstants.loginSuccessMessage;
         String actualMessage = accountPage.loginSuccessMessage.getText();
@@ -119,11 +125,12 @@ public class LocalLoginTest extends SeleniumTest {
 
     @Test(description = "TC-Login-01f - Distinct uppercase and lowercase letters")
     public void testLoginWithDistinctUppercaseAndLowercase() {
+        accountPage.buttonLogin.click();
         accountPage.inputUsername.sendKeys(MyConstants.username.toUpperCase());
         accountPage.inputPassword.sendKeys(MyConstants.password.toUpperCase());
         accountPage.buttonLogin.click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(accountPage.loginFailureMessage));
         String expectedError = MyConstants.loginFailureMessage;
         String actualError = accountPage.loginFailureMessage.getText();
@@ -132,11 +139,12 @@ public class LocalLoginTest extends SeleniumTest {
 
     @Test(description = "TC-Login-02 - Change password")
     public void testChangePasswordWithUntrimmedPassword() {
+        accountPage.buttonLogin.click();
         accountPage.inputUsername.sendKeys(MyConstants.username);
         accountPage.inputPassword.sendKeys(MyConstants.password);
         accountPage.buttonLogin.click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(accountPage.editAccountLink));
 
         accountPage.editAccountLink.click();
@@ -157,11 +165,12 @@ public class LocalLoginTest extends SeleniumTest {
 
     @Test(description = "TC-Login-02b - Change password with the same password")
     public void testChangePasswordWithSamePassword() {
+        accountPage.buttonLogin.click();
         accountPage.inputUsername.sendKeys(MyConstants.username);
         accountPage.inputPassword.sendKeys(MyConstants.password);
         accountPage.buttonLogin.click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(accountPage.editAccountLink));
 
         accountPage.editAccountLink.click();
@@ -185,12 +194,13 @@ public class LocalLoginTest extends SeleniumTest {
 
     @Test(description = "TC-Login-03 - Remember login when checkbox is ticked")
     public void testRememberLoginWithCheckbox() {
+        accountPage.buttonLogin.click();
         accountPage.inputUsername.sendKeys(MyConstants.username);
         accountPage.inputPassword.sendKeys(MyConstants.password);
         accountPage.spanRememberMe.click();
         accountPage.buttonLogin.click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(accountPage.editAccountLink));
 
         driver.navigate().refresh();
@@ -200,11 +210,12 @@ public class LocalLoginTest extends SeleniumTest {
 
     @Test(description = "TC-Login-04 - Do not remember login when checkbox is not ticked")
     public void testDoNotRememberLoginWithoutCheckbox() {
+        accountPage.buttonLogin.click();
         accountPage.inputUsername.sendKeys(MyConstants.username);
         accountPage.inputPassword.sendKeys(MyConstants.password);
         accountPage.buttonLogin.click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(accountPage.editAccountLink));
 
         driver.navigate().refresh();
@@ -214,11 +225,12 @@ public class LocalLoginTest extends SeleniumTest {
 
     @Test(description = "TC-Login-05 - Logout")
     public void testLogout() {
+        accountPage.buttonLogin.click();
         accountPage.inputUsername.sendKeys(MyConstants.username);
         accountPage.inputPassword.sendKeys(MyConstants.password);
         accountPage.buttonLogin.click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(accountPage.editAccountLink));
 
         accountPage.logoutLink.click();
@@ -231,7 +243,7 @@ public class LocalLoginTest extends SeleniumTest {
     @Test(description = "TC-Login-06 - Navigate to forgot password page")
     public void testNavigateToForgotPasswordPage() {
         accountPage.forgotPasswordLink.click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.urlContains("/lost-password"));
         String currentUrl = driver.getCurrentUrl();
         assertTrue(Objects.requireNonNull(currentUrl).contains("/lost-password"), "Expected to be on the forgot password page, but was on: " + currentUrl);

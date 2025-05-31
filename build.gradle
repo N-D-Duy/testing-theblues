@@ -53,7 +53,7 @@ allure {
     }
 }
 
-tasks.register('sampleTest', Test) {
+tasks.register('BrowserStackTest', Test) {
     group = 'verification'
     description = 'Run tests with BrowserStack'
 
@@ -75,7 +75,7 @@ tasks.register('sampleTest', Test) {
 }
 
 
-tasks.register('sampleLocalTest', Test) {
+tasks.register('LocalTest', Test) {
     group = 'verification'
     description = 'Run tests locally'
 
